@@ -29,7 +29,7 @@ class Web():
         self.v = mvv_violation
 
     def create_html(self):
-        outfile = open("index.html", "w")
+        outfile = open("smellweb/index.html", "w")
         print >>outfile, """<html>
         <head>
          <title>MTVchecker</title>
@@ -53,9 +53,16 @@ class Web():
             </style>
         </head>
         <body>
-        <table border="1">"""
+        """
         print >>outfile, "<h1>Relatorio de Code Smells Arquiteturais</h1>"
-        print >>outfile, "<tr><th>Smell</th><th>Local</th><th>Linha</th></tr>"
+        print >>outfile, """<table borde="1">
+        <tr><th>Modulo</th><th>Quantidade de code smells</th><th>Tipos</th></tr>
+        <tr><td>Model</td><td>12</td><td>-</td></tr>
+        <tr><td>View</td><td>7</td><td>MV</td></tr>
+        </table><p>"""
+
+
+        print >>outfile, """<table borde="1"><tr><th>Smell</th><th>Local</th><th>Linha</th></tr>"""
 
         for list_violation in self.v:
             for violation in list_violation:
@@ -70,7 +77,7 @@ class Web():
         </body></html>""" % (clock)
 
         outfile.close()
-        webbrowser.open('index.html', new=0, autoraise=True)
+        webbrowser.open('smellweb/index.html', new=0, autoraise=True)
 
 def load_config():
     arquivo = open('config.conf').read().decode("utf8").split('\n')

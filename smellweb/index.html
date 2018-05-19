@@ -1,62 +1,41 @@
-<!DOCTYPE>
 <html>
-  <head>
-    <title>
-      MTVchecker
-    </title>
-    <meta http-equiv="Content-Type"
-        content="text/html; charset=utf-8" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+        <head>
+         <title>MTVchecker</title>
+         <style>
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
 
-  </head>
-  <body>
-    <div class="header">
-      <h1>Relatório de code smells arquiteturais</h1>
-    </div> <!-- header -->
-    <div class="content">
-      <h1 id="breadcrumb">
-        Lista de code smells
-      </h1>
-      <table class="list">
-        <tr>
-          <th>Tipo</th>
-          <th>Arquivo</th>
-          <th>Linha</th>
-        </tr>
-        <tr class="odd">
-          <td class="smell">Meddling View</td>
-          <td>
-            <a href="local">views</a>
-          </td>
-          <td>8</td>
-        </tr>
-        <tr class="even">
-          <td class="date">Meddling View</td>
-          <td>
-            <a href="bug30">views.test_br</a>
-          </td>
-          <td>11</td>
-        </tr>
-        <tr class="odd">
-          <td class="date">Meddling View</td>
-          <td>
-            <a href="bug37">views.Teste_LRM</a>
-          </td>
-          <td>14</td>
-        </tr>
-        <tr class="even">
-          <td class="date">Meddling View</td>
-          <td>
-            <a href="bug43">views.Teste_LRM.with_counts</a>
-          </td>
-          <td>18</td>
-        </tr>
-      </table>
-    </form>
-  </div> <!-- content -->
-  <div class="footer">
-    Last modified: Wed Jun  3 00:02:37 EDT 2009
-  </div> <!-- footer -->
- </body>
-</html>
+            th, td {
+                text-align: left;
+                padding: 8px;
+            }
+
+            tr:nth-child(even){background-color: #f2f2f2}
+
+            th {
+                background-color: #4CAF50;
+                color: white;
+            }
+            </style>
+        </head>
+        <body>
+        
+<h1>Relatorio de Code Smells Arquiteturais</h1>
+<table borde="1">
+        <tr><th>Modulo</th><th>Quantidade de code smells</th><th>Tipos</th></tr>
+        <tr><td>Model</td><td>12</td><td>-</td></tr>
+        <tr><td>View</td><td>7</td><td>MV</td></tr>
+        </table><p>
+<table borde="1"><tr><th>Smell</th><th>Local</th><th>Linha</th></tr>
+<tr><td>Meddling View</td><td>views.-.-</td><td>8</td></tr>
+<tr><td>Meddling View</td><td>views.-.test_br</td><td>11</td></tr>
+<tr><td>Meddling View</td><td>views.Teste_LRM.-</td><td>14</td></tr>
+<tr><td>Meddling View</td><td>views.Teste_LRM.with_counts</td><td>17</td></tr>
+<tr><td>Meddling View</td><td>views.Teste_LRM.with_counts</td><td>18</td></tr>
+<tr><td>Meddling View</td><td>views.Teste_LRM.with_counts</td><td>19</td></tr>
+<tr><td>Meddling View</td><td>views.Teste_LRM.with_counts</td><td>20</td></tr>
+</table>
+        <p>Esse relatorio foi gerado em: 19 May 2018<p>
+        </body></html>
