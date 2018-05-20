@@ -2,29 +2,36 @@
 from __future__ import unicode_literals
 
 import ast
-from smell.complexity import McCabeComplexity
+from smellweb.complexity import McCabeComplexity
 
 def checker(models, views, managers, config):
-    mvv_violation = []
+    total_violations = []
     for key in views.keys():
         mvv = MeddlingViewVisitor(key)
         mvv.visit(views[key])
-        mvv_violation.append(mvv.violations)
-        return mvv_violation
+        total_violations.append(mvv.violations)
     relationships = mapping_relationships(models, managers)
     for key in models.keys():
-        MeddlingModelVisitor(key).visit(models[key])
-        FatRepositoryVisitor(key, relationships).visit(models[key])
-        LaboriousRepositoryMethodVisitor(key, relationships).visit(models[key])
+        mmv = MeddlingModelVisitor(key)
+        mmv.visit(models[key])
+        if mmv is not None : total_violations.append(mmv.violations)
+        frv = FatRepositoryVisitor(key, relationships)
+        frv.visit(models[key])
+        if frv is not None : total_violations.append(frv.violations)
+        lrmv = LaboriousRepositoryMethodVisitor(key, relationships)
+        lrmv.visit(models[key])
+        if lrmv is not None :
+            total_violations.append(lrmv.violations)
         complexitys = McCabeComplexity(int(config['mccabe_complexity'])).calcule(models[key])
-        BrainRepositoryVisitor(key, complexitys, int(config['sql_complexity'])).visit(models[key])
-
+        brv = BrainRepositoryVisitor(key, complexitys, int(config['sql_complexity']))
+        brv.visit(models[key])
+        if brv is not None : total_violations.append(brv.violations)
+    return total_violations
 def counts(models, views):
     for key in models.keys():
         CountSQLVisitor(key).visit(models[key])
     for key in views.keys():
         CountSQLVisitor(key).visit(views[key])
-
 
 def mapping_relationships(models, managers):
     # identifica todos os managers do modelo
@@ -67,7 +74,6 @@ class SmellBase(ast.NodeVisitor):
         for violation in self.violations:
             #print violation
             print '{}.{}.{}.{}.{}'.format(violation.module, violation.cls or '-', violation.method or '-', violation.smell, violation.line)
-
     def visit_ImportFrom(self, node):
         for item in node.names:
             if node.level == 0:
@@ -112,7 +118,6 @@ class SmellBase(ast.NodeVisitor):
 
 
 class MeddlingViewVisitor(SmellBase):
-
 
     def __init__(self, module):
         self.smell = "Meddling View"
@@ -162,7 +167,6 @@ class MeddlingModelVisitor(SmellBase):
         self.smell = "Meddling Model"
         SmellBase.__init__(self, module)
 
-
     def visit_Str(self, node):
         tags_html = ["<html", "<head", "<body", "<p", "<span", "<form", "<input", "<link", "<div"]
         for tag in tags_html:
@@ -172,7 +176,6 @@ class MeddlingModelVisitor(SmellBase):
                     break
             except UnicodeDecodeError:
                 pass
-
 
 class BrainRepositoryVisitor(SmellBase):
     '''
@@ -364,6 +367,9 @@ class FatRepositoryVisitor(SmellBase):
                             break
                     elif isinstance(arg, ast.Attribute):
                         pass
+                    elif isinstance(arg, ast.Call):
+                        pass
+
                     else:
                         if 'self' == arg.s:
                             self.relationships[self.cls] = self.imports[self.cls]
@@ -459,11 +465,12 @@ class ScanModelRelationships(SmellBase):
         self.is_assign = True
         self.generic_visit(node)
         # adiciona atributo na lista de managers se ele for do tipo Manager
-        if self.obj_manager:
-            name_manager = node.targets[0].id
-            self.models[self.key][0]['managers'].append(name_manager)
-        self.obj_manager = None
-        self.is_assign = False
+        if isinstance(node.targets[0], ast.Name) and isinstance(node.value, ast.Name):
+            if self.obj_manager:
+                name_manager = node.targets[0].id
+                self.models[self.key][0]['managers'].append(name_manager)
+            self.obj_manager = None
+            self.is_assign = False
 
     def visit_Call(self, node):
         if self.is_attribute_class():
@@ -487,7 +494,12 @@ class ScanModelRelationships(SmellBase):
                                 break
                         elif isinstance(arg, ast.Attribute):
                             pass
+                        elif isinstance(arg, ast.Str):
+                            pass
+                        elif isinstance(arg, ast.Call):
+                            pass
                         else:
+                            print arg
                             if 'self' == arg.s:
                                 break
                             elif len(arg.s.split('.')) == 1:

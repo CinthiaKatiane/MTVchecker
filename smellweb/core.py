@@ -21,12 +21,12 @@ def begin():
     models = converter.parse(model_files)
     views = converter.parse(view_files)
     managers = converter.parse(manager_files)
-    mvv_violation = checker(models, views, managers, config)
-    Web(mvv_violation).create_html()
+    violations = checker(models, views, managers, config)
+    Web(violations).create_html()
     #counts(models, views)
 class Web():
-    def __init__ (self, mvv_violation):
-        self.v = mvv_violation
+    def __init__ (self, violations):
+        self.v = violations
 
     def create_html(self):
         outfile = open("smellweb/index.html", "w")
@@ -56,9 +56,12 @@ class Web():
         """
         print >>outfile, "<h1>Relatorio de Code Smells Arquiteturais</h1>"
         print >>outfile, """<table borde="1">
-        <tr><th>Modulo</th><th>Quantidade de code smells</th><th>Tipos</th></tr>
-        <tr><td>Model</td><td>12</td><td>-</td></tr>
-        <tr><td>View</td><td>7</td><td>MV</td></tr>
+        <tr><th>Modulo</th><th>Quantidade de code smells</th><th>Tipo</th></tr>
+        <tr><td>Model</td><td>7</td><td>Meddling Model</td></tr>
+        <tr><td>Model</td><td>2</td><td>Fat Repository</td></tr>
+        <tr><td>Model</td><td>3</td><td>Laborious Repository Method</td></tr>
+        <tr><td>Model</td><td>1</td><td>Brain Repository</td></tr>
+        <tr><td>View</td><td>7</td><td>Meddling View</td></tr>
         </table><p>"""
 
 
@@ -68,7 +71,6 @@ class Web():
             for violation in list_violation:
                 smell = violation.smell
                 local = '{}.{}.{}'.format(violation.module, violation.cls or '-', violation.method or '-')
-
                 line = violation.line
                 print >>outfile, '''<tr><td>%s</td><td>%s</td><td>%s</td></tr>''' % (smell, local, line)
         clock = strftime("%d %b %Y", gmtime())
