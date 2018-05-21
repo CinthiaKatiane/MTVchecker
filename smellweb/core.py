@@ -55,18 +55,19 @@ class Web():
         <body>
         """
         print >>outfile, "<h1>Relatorio de Code Smells Arquiteturais</h1>"
-        print >>outfile, """<table borde="1">
-        <tr><th>Modulo</th><th>Quantidade de code smells</th><th>Tipo</th></tr>
-        <tr><td>Model</td><td>7</td><td>Meddling Model</td></tr>
-        <tr><td>Model</td><td>2</td><td>Fat Repository</td></tr>
-        <tr><td>Model</td><td>3</td><td>Laborious Repository Method</td></tr>
-        <tr><td>Model</td><td>1</td><td>Brain Repository</td></tr>
-        <tr><td>View</td><td>7</td><td>Meddling View</td></tr>
-        </table><p>"""
+        modules = []
+        for lista in self.v:
+            [modules.append(x.module) for x in lista if x.module not in modules]
 
+        for modulo in modules:
+            count = []
+            print >>outfile, """<table borde="1">
+            <tr><th>Modulo</th><th>Quantidade de code smells</th><th>Tipo</th></tr>"""
+            [count.append(x) for l in self.v for x in l if x.module == modulo]
+            self.write(count, outfile)
+            print >>outfile, """</table><p>"""
 
         print >>outfile, """<table borde="1"><tr><th>Smell</th><th>Local</th><th>Linha</th></tr>"""
-
         for list_violation in self.v:
             for violation in list_violation:
                 smell = violation.smell
@@ -81,6 +82,16 @@ class Web():
         outfile.close()
         webbrowser.open('smellweb/index.html', new=0, autoraise=True)
 
+    def write(self, violation, file):
+        dicionario = {}
+        module = violation[0].module
+        for v in violation:
+            if v.smell in dicionario:
+                dicionario[v.smell] += 1
+            else:
+                dicionario[v.smell] = 1
+        for i in dicionario.keys():
+            print >>file, '''<tr><td>%s</td><td>%s</td><td>%s</td></tr>''' % (module, dicionario[i], i)
 def load_config():
     arquivo = open('config.conf').read().decode("utf8").split('\n')
     for linha in arquivo:

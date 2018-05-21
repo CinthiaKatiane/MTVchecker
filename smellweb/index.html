@@ -24,13 +24,14 @@
         
 <h1>Relatorio de Code Smells Arquiteturais</h1>
 <table borde="1">
-        <tr><th>Modulo</th><th>Quantidade de code smells</th><th>Tipo</th></tr>
-        <tr><td>Model</td><td>7</td><td>Meddling Model</td></tr>
-        <tr><td>Model</td><td>2</td><td>Fat Repository</td></tr>
-        <tr><td>Model</td><td>3</td><td>Laborious Repository Method</td></tr>
-        <tr><td>Model</td><td>1</td><td>Brain Repository</td></tr>
-        <tr><td>View</td><td>7</td><td>Meddling View</td></tr>
-        </table><p>
+            <tr><th>Modulo</th><th>Quantidade de code smells</th><th>Tipo</th></tr>
+<tr><td>blog.views</td><td>7</td><td>Meddling View</td></tr>
+</table><p>
+<table borde="1">
+            <tr><th>Modulo</th><th>Quantidade de code smells</th><th>Tipo</th></tr>
+<tr><td>blog.models</td><td>3</td><td>Brain Repository</td></tr>
+<tr><td>blog.models</td><td>2</td><td>Laborious Repository Method</td></tr>
+</table><p>
 <table borde="1"><tr><th>Smell</th><th>Local</th><th>Linha</th></tr>
 <tr><td>Meddling View</td><td>blog.views.-.-</td><td>8</td></tr>
 <tr><td>Meddling View</td><td>blog.views.-.test_br</td><td>11</td></tr>
@@ -41,6 +42,9 @@
 <tr><td>Meddling View</td><td>blog.views.Teste_LRM.with_counts</td><td>20</td></tr>
 <tr><td>Laborious Repository Method</td><td>blog.models.Post.testa_exec_raw</td><td>24</td></tr>
 <tr><td>Laborious Repository Method</td><td>blog.models.Post.testa_raw</td><td>51</td></tr>
+<tr><td>Brain Repository</td><td>blog.models.Post.testa_exec_raw</td><td>24</td></tr>
+<tr><td>Brain Repository</td><td>blog.models.Post.testa_exec</td><td>37</td></tr>
+<tr><td>Brain Repository</td><td>blog.models.Post.testa_raw</td><td>51</td></tr>
 </table>
-        <p>Esse relatorio foi gerado em: 20 May 2018<p>
+        <p>Esse relatorio foi gerado em: 21 May 2018<p>
         </body></html>
