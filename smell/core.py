@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+<<<<<<< HEAD
 from smell.checker import checker
+=======
+
+from smell.checker import checker, counts
+>>>>>>> upstream/master
 from smell.identify import LayerFiles
 from smell.converter import SourceToAST
 
