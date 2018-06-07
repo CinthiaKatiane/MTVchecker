@@ -9,6 +9,7 @@ from time import gmtime, strftime
 
 config = {}
 
+
 def begin():
     load_config()
 
@@ -27,7 +28,7 @@ def begin():
 class Web():
     def __init__ (self, violations):
         self.v = violations
-
+'''
     def create_html(self):
         outfile = open("smellweb/index.html", "w")
         print >>outfile, """<html>
@@ -79,9 +80,9 @@ class Web():
         <p>Esse relatorio foi gerado em: %s<p>
         </body></html>""" % (clock)
 
-        outfile.close()
+        outfile.close()'''
         webbrowser.open('smellweb/index.html', new=0, autoraise=True)
-
+'''
     def write(self, violation, file):
         dicionario = {}
         module = violation[0].module
@@ -92,6 +93,8 @@ class Web():
                 dicionario[v.smell] = 1
         for i in dicionario.keys():
             print >>file, '''<tr><td>%s</td><td>%s</td><td>%s</td></tr>''' % (module, dicionario[i], i)
+'''
+
 def load_config():
     arquivo = open('config.conf').read().decode("utf8").split('\n')
     for linha in arquivo:
