@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from smell.checker import checker, counts
 from smell.identify import LayerFiles
 from smell.converter import SourceToAST
+import csv
 
 config = {}
 
@@ -20,7 +21,16 @@ def start():
     views = converter.parse(view_files)
     managers = converter.parse(manager_files)
 
-    checker(models, views, managers, config)
+    violations = checker(models, views, managers, config)
+
+    with open('violations.csv', 'w') as vf:
+        wr = csv.writer(vf, quoting=csv.QUOTE_ALL)
+        for v in violations:
+            if len(v) > 0:
+                for i in range(len(v)):
+                    wr.writerow([v[i]])
+            else:
+                pass
     #counts(models, views)
 
 def load_config():

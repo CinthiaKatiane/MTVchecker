@@ -1,0 +1,100 @@
+<html>
+  <head>
+    <title>MTVchecker</title>
+    <link rel="stylesheet" type="text/css" href="tabela.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body>
+
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript"charset="utf-8">
+        function toggleTable(name){
+            if (document.getElementById(name).style.display == "table" ) {
+                document.getElementById(name).style.display="none";
+
+            } else {
+                document.getElementById(name).style.display="table";
+            }
+        }
+
+        d3.text("violations.csv", function(data) {
+            var parsedCSV = d3.csv.parseRows(data);
+
+            var container1 = d3.select("#lista-geral")
+                .selectAll("tr")
+                    .data(parsedCSV).enter()
+                    .append("tr")
+
+                .selectAll("td")
+                    .data(function(d) { return d; }).enter()
+                    .append("td")
+                    .text(function(d) { return d; });
+
+              var container2 = d3.select("#view-smell")
+                .selectAll("tr")
+                    .data(parsedCSV).enter()
+                    .append("tr")
+
+                .selectAll("td")
+                    .data(function(d) { return d;})
+                    .enter()
+                    .append("td")
+                    .filter(function(d) { return d.includes("View");})
+                    .text(function(d) { return d; });
+
+              var container3 = d3.select("#model-smell")
+                .selectAll("tr")
+                    .data(parsedCSV).enter()
+                    .append("tr")
+
+                .selectAll("td")
+                    .data(function(d) { return d;})
+                    .enter()
+                    .append("td")
+                    .filter(function(d) { return d.includes("model");})
+                    .text(function(d) { return d; });
+        });
+    </script>
+
+    <h1>Relatorio de Code Smells Arquiteturais</h1>
+    <table borde="1" >
+      <tr>
+        <th>
+          <i onclick="toggleTable('view-smell');" class="fa fa-align-justify" style="font-size:24px"></i>
+          View smells
+        </th>
+      </tr>
+    </table>
+    <table id='view-smell' borde="1" >
+    </table>
+
+    <table borde="1">
+      <tr>
+        <th>
+          <i onclick="toggleTable('model-smell');" class="fa fa-align-justify" style="font-size:24px"></i>
+          Model Smells
+        </th>
+      </tr>
+    </table>
+    <table id='model-smell' borde="1">
+    </table>
+
+    <table borde="1">
+      <tr>
+        <th>
+          <i onclick="toggleTable('lista-geral');" class="fa fa-align-justify" style="font-size:24px"></i>
+          Smells Arquiteturais
+        </th>
+      </tr>
+    </table>
+    <table id='lista-geral' borde="1">
+    </table>
+
+    <p id="data"></p>
+    <script>
+      d = new Date();
+      document.getElementById("data").innerHTML = d;
+    </script>
+
+  </body>
+</html>
